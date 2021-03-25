@@ -313,10 +313,18 @@ class Rows {
     const keys = Object.keys(this._);
     const ri = keys[keys.length - 1];
     const col = this._[ri];
+    let ci = 0;
     if (col) {
       const { cells } = col;
       const ks = Object.keys(cells);
-      const ci = ks[ks.length - 1];
+      ci = ks[ks.length - 1];
+      for (let i = 0; i < keys.length; i += 1) {
+        if(this._[keys[i]]) {
+          const { cells: otherCells } = this._[keys[i]];
+          const otherKs = Object.keys(otherCells);
+          ci = ci < otherKs[otherKs.length - 1] ? otherKs[otherKs.length - 1] : ci;
+        }
+      }
       return [parseInt(ri, 10), parseInt(ci, 10)];
     }
     return [0, 0];
